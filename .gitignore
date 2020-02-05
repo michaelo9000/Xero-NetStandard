@@ -39,3 +39,6 @@ out/
 *.DotSettings
 *.lnk
 */.vs
+.vscode/launch.json
+.vscode/settings.json
+.vscode/tasks.json
