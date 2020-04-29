@@ -15,7 +15,7 @@ namespace Xero.NetStandard.OAuth2.Client
     {
         public XeroConfiguration xeroConfiguration { get; set; }
         private readonly RequestUrl xeroAuthorizeUri;
-        private readonly IHttpClientFactory httpClientFactory;
+        private static HttpClient client = new HttpClient();
         /// <summary>
         /// Builds a XeroLogin URL
         /// </summary>
@@ -36,11 +36,10 @@ namespace Xero.NetStandard.OAuth2.Client
         /// </summary>
         /// <param name="XeroConfig"></param>
         /// <param name="httpClientFactory"></param>
-        public XeroClient(XeroConfiguration XeroConfig, IHttpClientFactory httpClientFactory)
+        public XeroClient(XeroConfiguration XeroConfig)
         {
             this.xeroConfiguration = XeroConfig;
             this.xeroAuthorizeUri = new RequestUrl("https://login.xero.com/identity/connect/authorize");
-            this.httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
 
         }
         /// <summary>
@@ -53,7 +52,6 @@ namespace Xero.NetStandard.OAuth2.Client
         public async Task<IXeroToken> RequestAccessTokenAsync(string code)
         {
 
-            var client = httpClientFactory.CreateClient("Xero");
             var response = await client.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
             {
                 Address = "https://identity.xero.com/connect/token",
@@ -91,7 +89,6 @@ namespace Xero.NetStandard.OAuth2.Client
             {
                 throw new ArgumentNullException("xeroToken");
             }
-            var client = httpClientFactory.CreateClient("Xero");
 
             var response = await client.RequestRefreshTokenAsync(new RefreshTokenRequest
             {
@@ -116,7 +113,6 @@ namespace Xero.NetStandard.OAuth2.Client
         /// <returns></returns>
         public async Task<IXeroToken> RequestXeroTokenAsync(string code)
         {
-            var client = httpClientFactory.CreateClient("Xero");
             var response = await client.RequestAuthorizationCodeTokenAsync(new AuthorizationCodeTokenRequest
             {
                 Address = "https://identity.xero.com/connect/token",
@@ -169,7 +165,6 @@ namespace Xero.NetStandard.OAuth2.Client
         /// <returns>List of Tenants attached to accesstoken</returns>
         public async Task<List<Tenant>> GetConnectionsAsync(IXeroToken xeroToken)
         {
-            var client = httpClientFactory.CreateClient("Xero");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", xeroToken.AccessToken);
             using (var requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://api.xero.com/connections"))
             {
@@ -195,7 +190,6 @@ namespace Xero.NetStandard.OAuth2.Client
         /// <returns>List of Tenants attached to accesstoken</returns>
         public async Task DeleteConnectionAsync(IXeroToken xeroToken, Tenant xeroTenant)
         {
-            var client = httpClientFactory.CreateClient("Xero");
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", xeroToken.AccessToken);
             using (var requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Delete, "https://api.xero.com/connections" + "/" + xeroTenant.id))
             {
