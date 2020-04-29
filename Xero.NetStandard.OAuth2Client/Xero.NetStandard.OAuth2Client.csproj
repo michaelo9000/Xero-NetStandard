@@ -1,18 +1,19 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Xero.NetStandard.OAuth2Client</PackageId>
-    <Version>0.0.4</Version>
-    <Authors>Xero</Authors>
-    <Company>Xero</Company>
+    <PackageId>Xero.NetStandard.OAuth2ClientLite</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Michael O'Hara</Authors>
+    <Company></Company>
     <PackageLicenseUrl>https://github.com/XeroAPI/Xero-NetStandard/</PackageLicenseUrl>
     <PackageIconUrl>https://en.gravatar.com/userimage/180557955/74b3a957d886bc921b0d1455beed9dab.png</PackageIconUrl>
     <Owners>Xero</Owners>
     <Copyright>Copyright © Xero 2019</Copyright>
     <PackageTags>xero;api;sdk;oauth2;oauth2.0</PackageTags>
+    <Product>Xero.NetStandard.OAuth2ClientLite</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="IdentityModel" Version="3.10.10"/>
-    <PackageReference Include="Microsoft.Extensions.Http" Version="2.2.0"/>
+    <PackageReference Include="IdentityModel" Version="3.10.10" />
   </ItemGroup>
 </Project>
